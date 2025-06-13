@@ -1,4 +1,4 @@
-# ProjectGen CLI
+# UGen CLI
 
 🚀 AI-powered project generator that creates complete, production-ready applications from simple descriptions.
 
@@ -17,14 +17,14 @@
 ### Installation
 
 ```bash
-npm install -g projectgen-cli
+npm install -g ugen-cli
 ```
 
 ### Initial Setup
 
 ```bash
 # Initialize guidelines (required for first use)
-projectgen setup
+ugen setup
 ```
 
 This creates a `guidelines` folder with sample .txt files that define your project templates and requirements.
@@ -33,13 +33,13 @@ This creates a `guidelines` folder with sample .txt files that define your proje
 
 ```bash
 # Simple generation (uses guidelines automatically)
-projectgen generate "Create a React todo app with authentication"
+ugen generate "Create a React todo app with authentication"
 
 # Interactive mode
-projectgen g "Employee management system" --interactive
+ugen g "Employee management system" --interactive
 
 # Specify output directory
-projectgen g "Blog platform" -o ./my-blog
+ugen g "Blog platform" -o ./my-blog
 ```
 
 ## Usage Examples
@@ -47,25 +47,25 @@ projectgen g "Blog platform" -o ./my-blog
 ### Basic Web Applications
 
 ```bash
-projectgen g "Create a recipe sharing website with user accounts"
-projectgen g "Build an e-commerce store with payment integration"
-projectgen g "Social media dashboard with real-time updates"
+ugen g "Create a recipe sharing website with user accounts"
+ugen g "Build an e-commerce store with payment integration"
+ugen g "Social media dashboard with real-time updates"
 ```
 
 ### Full-Stack Applications
 
 ```bash
-projectgen g "Employee management system with React frontend and Node.js backend"
-projectgen g "Task management app with team collaboration features"
-projectgen g "Inventory tracking system with reporting dashboard"
+ugen g "Employee management system with React frontend and Node.js backend"
+ugen g "Task management app with team collaboration features"
+ugen g "Inventory tracking system with reporting dashboard"
 ```
 
 ### Specialized Projects
 
 ```bash
-projectgen g "REST API for a booking system with authentication"
-projectgen g "React Native mobile app for expense tracking"
-projectgen g "CLI tool for file management in Node.js"
+ugen g "REST API for a booking system with authentication"
+ugen g "React Native mobile app for expense tracking"
+ugen g "CLI tool for file management in Node.js"
 ```
 
 ## Command Reference
@@ -75,7 +75,7 @@ projectgen g "CLI tool for file management in Node.js"
 Generate a new project from a description.
 
 ```bash
-projectgen generate <description> [options]
+ugen generate <description> [options]
 ```
 
 **Options:**
@@ -88,9 +88,9 @@ projectgen generate <description> [options]
 **Examples:**
 
 ```bash
-projectgen g "React admin panel"
-projectgen g "Vue.js blog" -o ./my-blog
-projectgen g "Express API" --interactive
+ugen g "React admin panel"
+ugen g "Vue.js blog" -o ./my-blog
+ugen g "Express API" --interactive
 ```
 
 ### `templates` (alias: `t`)
@@ -98,7 +98,7 @@ projectgen g "Express API" --interactive
 List available templates.
 
 ```bash
-projectgen templates
+ugen templates
 ```
 
 ### `config`
@@ -106,7 +106,7 @@ projectgen templates
 Configure API settings.
 
 ```bash
-projectgen config
+ugen config
 ```
 
 ### `version` (alias: `v`)
@@ -114,7 +114,7 @@ projectgen config
 Show version information.
 
 ```bash
-projectgen version
+ugen version
 ```
 
 ## Interactive Mode
@@ -122,7 +122,7 @@ projectgen version
 Interactive mode guides you through project creation with smart questions:
 
 ```bash
-projectgen g "My project idea" --interactive
+ugen g "My project idea" --interactive
 ```
 
 You'll be asked about:
@@ -134,7 +134,7 @@ You'll be asked about:
 
 ## Templates
 
-ProjectGen includes several built-in templates:
+ugen includes several built-in templates:
 
 - **react-express** - React frontend with Express.js backend
 - **nextjs-fullstack** - Next.js full-stack application
@@ -146,12 +146,12 @@ ProjectGen includes several built-in templates:
 Use templates with the `-t` flag:
 
 ```bash
-projectgen g "My app" -t react-express
+ugen g "My app" -t react-express
 ```
 
 ## Configuration
 
-ProjectGen stores configuration in `~/.projectgen/config.json`.
+UGen stores configuration in `~/.ugen/config.json`.
 
 ### Manual Configuration
 
@@ -160,7 +160,7 @@ Edit the config file directly:
 ```json
 {
   "apiKey": "your-api-key",
-  "apiUrl": "https://api.projectgen.dev",
+  "apiUrl": "https://ugen.ufixs.com",
   "autoInstall": true,
   "gitInit": true,
   "defaultOutput": "."
@@ -172,13 +172,13 @@ Edit the config file directly:
 You can also use environment variables:
 
 ```bash
-export PROJECTGEN_API_KEY="your-api-key"
-export PROJECTGEN_API_URL="https://api.projectgen.dev"
+export UGEN_API_KEY="your-api-key"
+export UGEN_API_URL="https://ugen.ufixs.com"
 ```
 
 ## Generated Project Structure
 
-ProjectGen creates well-structured projects with:
+UGen creates well-structured projects with:
 
 - **Clean Architecture**: Organized folder structure
 - **Best Practices**: Industry-standard coding patterns
@@ -211,8 +211,8 @@ my-project/
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/projectgen-cli
-cd projectgen-cli
+git clone https://github.com/pkroshn/ugen.git
+cd ugen-cli
 
 # Install dependencies
 npm install
@@ -224,7 +224,7 @@ npm link
 export NODE_ENV=development
 
 # Test the CLI
-projectgen g "test project" -o ./test
+ugen g "test project" -o ./test
 ```
 
 ### Building
@@ -237,7 +237,7 @@ pkg . --targets node16-win-x64,node16-macos-x64,node16-linux-x64
 
 ## API Integration
 
-ProjectGen CLI communicates with an AI backend service. The backend:
+UGen CLI communicates with an AI backend service. The backend:
 
 1. Analyzes your project description using AI
 2. Generates appropriate project architecture
@@ -255,19 +255,19 @@ For development and testing, the CLI includes mock responses when no API key is 
 **CLI not found after installation:**
 
 ```bash
-npm install -g projectgen-cli
+npm install -g ugen-cli
 ```
 
 **Permission denied:**
 
 ```bash
-sudo npm install -g projectgen-cli
+sudo npm install -g ugen-cli
 ```
 
 **API key issues:**
 
 ```bash
-projectgen config
+ugen config
 # Enter your API key when prompted
 ```
 
@@ -281,7 +281,7 @@ projectgen config
 
 ```bash
 export NODE_ENV=development
-projectgen g "your project" --verbose
+ugen g "your project" --verbose
 ```
 
 ## Contributing
@@ -293,7 +293,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 1. Fork the repository
 2. Install dependencies: `npm install`
 3. Make your changes
-4. Test locally: `npm link && projectgen g "test"`
+4. Test locally: `npm link && ugen g "test"`
 5. Submit a pull request
 
 ## License
@@ -302,11 +302,11 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Support
 
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/yourusername/projectgen-cli/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/yourusername/projectgen-cli/discussions)
-- 📧 **Email**: support@projectgen.dev
-- 📖 **Documentation**: [docs.projectgen.dev](https://docs.projectgen.dev)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/pkroshn/ugen.git)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/pkroshn/ugen-cli/discussions)
+- 📧 **Email**: support@ufixs.com
+- 📖 **Documentation**: [docs.ugen.ufixs.com](https://docs.ugen.ufixs.com)
 
 ---
 
-**Made with ❤️ by the ProjectGen team**
+**Made with ❤️ by the UFIXS team**
