@@ -1,0 +1,214 @@
+# UGen Template System - Usage Examples
+
+## 🎯 **How Template Auto-Detection Works**
+
+When you run a command, UGen analyzes your prompt for keywords and automatically suggests the best template:
+
+### **Admin Dashboard Detection**
+```bash
+ugen g "Create an admin dashboard for user management"
+# 🎨 Found template "AdminLTE Dashboard". Use this instead of AI generation? (Y/n)
+```
+
+**Keywords that trigger admin templates:**
+- `admin`, `dashboard`, `panel`, `management`, `backend`
+
+### **React Dashboard Detection**
+```bash
+ugen g "Build a React admin panel with charts"
+# 🎨 Found template "React Admin Dashboard". Use this instead of AI generation? (Y/n)
+```
+
+**Keywords that trigger React admin:**
+- `react`, `admin`, `dashboard`, `material`, `mui`
+
+### **SaaS Application Detection**
+```bash
+ugen g "Create a SaaS application with subscriptions"
+# 🎨 Found template "Next.js SaaS Starter". Use this instead of AI generation? (Y/n)
+```
+
+## 📋 **Available Templates**
+
+### **1. AdminLTE Dashboard** (`adminlte`)
+- **Best for:** Traditional admin interfaces
+- **Keywords:** admin, dashboard, panel, management, backend
+- **Features:** Bootstrap-based, responsive, charts, widgets
+- **Setup:** Ready-to-use HTML template
+
+```bash
+ugen g "Admin dashboard" -t adminlte
+```
+
+### **2. React Admin Dashboard** (`react-admin`)
+- **Best for:** Modern React admin interfaces
+- **Keywords:** react, admin, dashboard, material, mui
+- **Features:** Material-UI, data grids, forms, authentication
+- **Setup:** Full React application
+
+```bash
+ugen g "React admin panel" -t react-admin
+```
+
+### **3. Vue Admin Dashboard** (`vue-admin`)
+- **Best for:** Vue.js admin interfaces
+- **Keywords:** vue, admin, dashboard, element, plus
+- **Features:** Element Plus UI, Vue 3, composition API
+- **Setup:** Vue 3 application
+
+```bash
+ugen g "Vue admin dashboard" -t vue-admin
+```
+
+### **4. Bootstrap Admin** (`bootstrap-admin`)
+- **Best for:** Simple, clean admin templates
+- **Keywords:** bootstrap, admin, template, responsive
+- **Features:** Pure Bootstrap, minimal JavaScript
+- **Setup:** Static HTML template
+
+```bash
+ugen g "Bootstrap admin template" -t bootstrap-admin
+```
+
+### **5. Next.js SaaS Starter** (`nextjs-saas`)
+- **Best for:** SaaS applications with subscriptions
+- **Keywords:** nextjs, saas, stripe, auth, subscription
+- **Features:** Stripe integration, authentication, billing
+- **Setup:** Full Next.js application
+
+```bash
+ugen g "SaaS app with payments" -t nextjs-saas
+```
+
+### **6. Express API Boilerplate** (`express-api`)
+- **Best for:** REST API backends
+- **Keywords:** express, api, nodejs, jwt, mongodb
+- **Features:** JWT auth, MongoDB, validation, testing
+- **Setup:** Node.js API server
+
+```bash
+ugen g "REST API with authentication" -t express-api
+```
+
+## 🎯 **Usage Scenarios**
+
+### **Scenario 1: Quick Admin Dashboard**
+```bash
+# User prompt
+ugen g "I need an admin dashboard to manage users and view analytics"
+
+# UGen detects 'admin' and 'dashboard' keywords
+# Suggests AdminLTE template
+# User accepts → Gets ready-to-use admin template
+```
+
+### **Scenario 2: Custom Requirements**
+```bash
+# User prompt  
+ugen g "Create a dashboard for my specific business needs"
+
+# UGen detects 'dashboard' keyword
+# User declines template suggestion
+# UGen uses AI + guidelines to create custom solution
+```
+
+### **Scenario 3: Specific Template**
+```bash
+# User knows exactly what they want
+ugen g "Build me anything" -t react-admin
+
+# Forces React Admin template regardless of prompt
+```
+
+### **Scenario 4: No Template Match**
+```bash
+# User prompt
+ugen g "Create a mobile game with Unity"
+
+# No templates match
+# UGen proceeds with AI generation using guidelines
+```
+
+## ⚡ **Workflow Examples**
+
+### **Fast Dashboard Creation**
+```bash
+# 1. Quick setup
+ugen g "admin dashboard"
+# → Suggests AdminLTE
+# → Accept suggestion
+# → Ready in 30 seconds!
+
+# 2. Customize
+cd my-dashboard
+# Edit index.html
+# Add your data
+# Deploy!
+```
+
+### **Custom Project with Guidelines**
+```bash
+# 1. Setup guidelines (one time)
+ugen setup
+
+# 2. Generate custom project
+ugen g "inventory management system"
+# → No template match
+# → Uses guidelines + AI
+# → Creates custom solution
+
+# 3. Result: Fully custom code following your standards
+```
+
+### **Interactive Template Selection**
+```bash
+ugen g "dashboard" --interactive
+# → Shows template suggestions
+# → Asks additional questions
+# → Combines template with custom requirements
+```
+
+## 🔄 **Decision Flow**
+
+```
+User runs: ugen g "prompt"
+           ↓
+    Check for template keywords
+           ↓
+   ┌─ Template found? ─┐
+   │                   │
+  YES                 NO
+   │                   │
+   ↓                   ↓
+Ask user:         Use AI generation
+Use template?     with guidelines
+   │                   │
+┌─ YES ─┐             │
+│       │             │
+↓       ↓             ↓
+Use     Use AI        Custom
+Template with         Project
+        guidelines    
+```
+
+## 💡 **Best Practices**
+
+### **When to Use Templates:**
+✅ **Quick prototypes**
+✅ **Standard admin dashboards** 
+✅ **Common SaaS patterns**
+✅ **API boilerplates**
+✅ **Learning/experimentation**
+
+### **When to Use AI Generation:**
+✅ **Custom business logic**
+✅ **Unique requirements**
+✅ **Complex integrations**
+✅ **Specific tech stacks**
+✅ **Novel project types**
+
+### **Pro Tips:**
+- Use `ugen templates` to see all available options
+- Templates are great starting points - customize them!
+- Combine templates with guidelines for best results
+- Templates save time, AI generation gives flexibility

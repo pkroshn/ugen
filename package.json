@@ -1,0 +1,48 @@
+{
+  "name": "ugen-cli",
+  "version": "1.0.0",
+  "description": "AI-powered project generator CLI",
+  "main": "src/cli.js",
+  "bin": {
+    "ugen": "./bin/ugen.js"
+  },
+  "scripts": {
+    "start": "node bin/ugen.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node bin/ugen.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.54.0",
+    "axios": "^1.4.0",
+    "boxen": "^5.1.2",
+    "chalk": "^4.1.2",
+    "cli-progress": "^3.12.0",
+    "commander": "^9.5.0",
+    "dotenv": "^16.3.1",
+    "figlet": "^1.6.0",
+    "fs-extra": "^11.1.1",
+    "inquirer": "^8.2.6",
+    "ora": "^5.4.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [
+    "cli",
+    "generator",
+    "ai",
+    "project",
+    "scaffold",
+    "ugen"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/ugen-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/ugen-cli/issues"
+  },
+  "homepage": "https://github.com/yourusername/ugen-cli#readme"
+}

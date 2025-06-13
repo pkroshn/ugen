@@ -1,0 +1,281 @@
+const Anthropic = require('@anthropic-ai/sdk');
+const { loadConfig } = require('./utils');
+
+class ClaudeClient {
+  constructor() {
+    this.config = loadConfig();
+    this.claudeApiKey = process.env.CLAUDE_API_KEY;
+    
+    if (this.claudeApiKey) {
+      this.anthropic = new Anthropic({
+        apiKey: this.claudeApiKey,
+      });
+    }
+  }
+
+  isAvailable() {
+    return !!this.claudeApiKey && process.env.USE_CLAUDE_DIRECT === 'true';
+  }
+
+  async analyzeRequirements(prompt) {
+    if (!this.isAvailable()) {
+      throw new Error('Claude API not configured');
+    }
+
+    const analysisPrompt = `Analyze the following project request and extract key information:
+
+"${prompt}"
+
+Please provide a JSON response with:
+- projectType: (web-application, mobile-app, api-service, etc.)
+- techStack: array of recommended technologies
+- features: array of key features needed
+- complexity: (simple, medium, complex)
+- estimatedFiles: number of files to generate
+
+Respond only with valid JSON, no markdown formatting.`;
+
+    try {
+      const response = await this.anthropic.messages.create({
+        model: 'claude-3-sonnet-20240229',
+        max_tokens: 1000,
+        messages: [
+          {
+            role: 'user',
+            content: analysisPrompt
+          }
+        ]
+      });
+
+      const analysisText = response.content[0].text;
+      
+      try {
+        return JSON.parse(analysisText);
+      } catch (parseError) {
+        // Fallback if JSON parsing fails
+        return {
+          projectType: 'web-application',
+          techStack: ['React', 'Node.js', 'Express'],
+          features: ['authentication', 'database', 'api'],
+          complexity: 'medium',
+          estimatedFiles: 15
+        };
+      }
+    } catch (error) {
+      console.error('Claude analysis error:', error.message);
+      throw error;
+    }
+  }
+
+  async generateProject(data) {
+    if (!this.isAvailable()) {
+      throw new Error('Claude API not configured');
+    }
+
+    const { prompt, analysis } = data;
+
+    const generationPrompt = `Create a complete project structure based on this request:
+
+PROJECT REQUEST: "${prompt}"
+
+ANALYSIS: ${JSON.stringify(analysis, null, 2)}
+
+Please generate a complete project with:
+
+1. **Project Structure**: Create a realistic folder/file structure
+2. **Package.json**: With appropriate dependencies and scripts
+3. **Source Code**: Generate actual working code files
+4. **Configuration**: Environment files, build configs, etc.
+5. **Documentation**: README with setup instructions
+
+REQUIREMENTS:
+- Generate REAL, WORKING code (not placeholders)
+- Follow modern best practices
+- Include proper error handling
+- Add comprehensive comments
+- Make it production-ready
+
+Please respond with a JSON object in this exact format:
+{
+  "type": "Full-Stack Web Application",
+  "techStack": "React + Node.js + Express",
+  "structure": {
+    "folders": ["src", "src/components", "server", ...]
+  },
+  "files": {
+    "package.json": "actual JSON content as string",
+    "src/App.js": "actual React code as string",
+    "server/index.js": "actual Express code as string",
+    ...
+  },
+  "config": {
+    "packageJson": true,
+    "type": "nodejs"
+  },
+  "setupInstructions": [
+    "Navigate to your project directory",
+    "Run npm install",
+    ...
+  ]
+}
+
+Generate a complete, professional project. Respond only with valid JSON.`;
+
+    try {
+      const response = await this.anthropic.messages.create({
+        model: 'claude-3-sonnet-20240229',
+        max_tokens: 4000,
+        messages: [
+          {
+            role: 'user',
+            content: generationPrompt
+          }
+        ]
+      });
+
+      const generatedText = response.content[0].text;
+      
+      try {
+        // Try to parse JSON response
+        const projectData = JSON.parse(generatedText);
+        return projectData;
+      } catch (parseError) {
+        console.warn('Claude returned non-JSON response, using fallback generation');
+        // Fallback to mock generation if Claude doesn't return proper JSON
+        return this.generateFallbackProject(prompt);
+      }
+    } catch (error) {
+      console.error('Claude generation error:', error.message);
+      // Fallback to mock generation
+      return this.generateFallbackProject(prompt);
+    }
+  }
+
+  generateFallbackProject(prompt) {
+    // Fallback project generation using our existing templates
+    return {
+      type: 'Full-Stack Web Application',
+      techStack: 'React + Node.js + Express',
+      structure: {
+        folders: [
+          'src',
+          'src/components',
+          'src/pages',
+          'src/utils',
+          'server',
+          'server/routes',
+          'public'
+        ]
+      },
+      files: {
+        'package.json': JSON.stringify({
+          name: 'claude-generated-project',
+          version: '1.0.0',
+          description: `Generated by UGen using Claude AI: ${prompt}`,
+          scripts: {
+            'start': 'node server/index.js',
+            'dev': 'concurrently "npm run server" "npm run client"',
+            'server': 'nodemon server/index.js',
+            'client': 'react-scripts start',
+            'build': 'react-scripts build'
+          },
+          dependencies: {
+            'react': '^18.2.0',
+            'react-dom': '^18.2.0',
+            'express': '^4.18.2',
+            'cors': '^2.8.5'
+          },
+          devDependencies: {
+            'react-scripts': '^5.0.1',
+            'nodemon': '^2.0.20',
+            'concurrently': '^7.6.0'
+          }
+        }, null, 2),
+        'README.md': `# Claude Generated Project
+
+This project was generated by UGen using Claude AI.
+
+**Original Prompt:** "${prompt}"
+
+## Getting Started
+
+1. Install dependencies:
+   \`\`\`bash
+   npm install
+   \`\`\`
+
+2. Start development:
+   \`\`\`bash
+   npm run dev
+   \`\`\`
+
+Generated with ❤️ by UGen + Claude AI
+`,
+        'src/App.js': `import React from 'react';
+
+function App() {
+  return (
+    <div style={{ padding: '2rem', fontFamily: 'Arial, sans-serif' }}>
+      <h1>🎉 Claude Generated Project</h1>
+      <p>This project was generated by UGen using Claude AI!</p>
+      <p><strong>Your prompt:</strong> "${prompt}"</p>
+      <div style={{ 
+        background: '#f0f8ff', 
+        padding: '1rem', 
+        borderRadius: '8px',
+        marginTop: '1rem' 
+      }}>
+        <h3>✨ What's included:</h3>
+        <ul>
+          <li>React frontend</li>
+          <li>Express backend</li>
+          <li>Modern development setup</li>
+          <li>Ready to customize!</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+export default App;
+`,
+        'server/index.js': `const express = require('express');
+const cors = require('cors');
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.get('/api', (req, res) => {
+  res.json({ 
+    message: 'Hello from Claude-generated API!',
+    prompt: '${prompt}',
+    generatedBy: 'UGen + Claude AI'
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(\`🚀 Claude-generated server running on port \${PORT}\`);
+});
+`
+      },
+      config: {
+        packageJson: true,
+        type: 'nodejs'
+      },
+      setupInstructions: [
+        'Navigate to your project directory',
+        'Run "npm install" to install dependencies', 
+        'Run "npm run dev" to start both frontend and backend',
+        'Open http://localhost:3000 to see your app',
+        'The API will be available at http://localhost:5000/api'
+      ]
+    };
+  }
+}
+
+module.exports = ClaudeClient;
